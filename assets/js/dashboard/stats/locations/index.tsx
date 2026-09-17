@@ -14,6 +14,9 @@ import { ReportLayout } from '../reports/report-layout'
 import { ReportHeader } from '../reports/report-header'
 import { TabButton, TabWrapper } from '../../components/tabs'
 import MoreLink from '../more-link'
+import { AppNavigationLink } from '../../navigation/use-app-navigate'
+import { GlobeAltIcon } from '@heroicons/react/24/outline'
+import { GLOBE_PATH } from './globe'
 import { MoreLinkState } from '../more-link-state'
 import { QueryApiResponse, QueryResultRow } from '../../api'
 import ImportedWarningBubble from '../imported-warning-bubble'
@@ -195,13 +198,25 @@ export function Locations() {
           </TabWrapper>
           <ImportedWarningBubble queryApiResponse={currentData} />
         </div>
-        <MoreLink
-          state={moreLinkState}
-          linkProps={{
-            path: moreLinkPath,
-            search: (search: string) => search
-          }}
-        />
+        <div className="flex items-center gap-x-2">
+          {!site.isDbip && site.mapboxToken && (
+            <AppNavigationLink
+              path={GLOBE_PATH}
+              search={(search) => search}
+              title="Live globe"
+              className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+            >
+              <GlobeAltIcon className="size-4" />
+            </AppNavigationLink>
+          )}
+          <MoreLink
+            state={moreLinkState}
+            linkProps={{
+              path: moreLinkPath,
+              search: (search: string) => search
+            }}
+          />
+        </div>
       </ReportHeader>
       {tab === 'map' ? (
         <CountriesMap

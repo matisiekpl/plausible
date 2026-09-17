@@ -118,6 +118,7 @@ defmodule PlausibleWeb.StatsController do
           demo: demo,
           flags: flags,
           dbip?: dbip?(),
+          mapbox_token: mapbox_token(),
           segments: segments,
           load_dashboard_js: true,
           hide_footer?: if(ce?() || demo, do: false, else: site_role != :public),
@@ -430,6 +431,7 @@ defmodule PlausibleWeb.StatsController do
           theme: conn.params["theme"],
           flags: flags,
           dbip?: dbip?(),
+          mapbox_token: mapbox_token(),
           segments: segments,
           load_dashboard_js: true,
           hide_footer?: if(ce?(), do: embedded?, else: embedded? || site_role != :public),
@@ -469,6 +471,8 @@ defmodule PlausibleWeb.StatsController do
       |> String.starts_with?("DBIP")
     end
   end
+
+  defp mapbox_token(), do: Application.get_env(:plausible, :mapbox)[:access_token]
 
   defp title(%{path_info: ["plausible.io"]}, _) do
     "Plausible Analytics: Live Demo"

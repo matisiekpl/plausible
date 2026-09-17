@@ -1,5 +1,7 @@
 @import 'tailwindcss' source(none);
 @import 'flatpickr/dist/flatpickr.min.css' layer(components);
+@import 'mapbox-gl/dist/mapbox-gl.css' layer(components);
+@import './globe.css' layer(components);
 @import './modal.css' layer(components);
 @import './loader.css' layer(components);
 @import './tooltip.css' layer(components);

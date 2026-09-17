@@ -261,6 +261,9 @@ help_scout_app_id = get_var_from_path_or_env(config_dir, "HELP_SCOUT_APP_ID")
 help_scout_app_secret = get_var_from_path_or_env(config_dir, "HELP_SCOUT_APP_SECRET")
 help_scout_signature_key = get_var_from_path_or_env(config_dir, "HELP_SCOUT_SIGNATURE_KEY")
 help_scout_vault_key = get_var_from_path_or_env(config_dir, "HELP_SCOUT_VAULT_KEY")
+mapbox_access_token = get_var_from_path_or_env(config_dir, "MAPBOX_ACCESS_TOKEN")
+
+config :plausible, :mapbox, access_token: mapbox_access_token
 
 otlp_endpoint =
   get_var_from_path_or_env(config_dir, "OTLP_ENDPOINT", "https://api.honeycomb.io:443")
