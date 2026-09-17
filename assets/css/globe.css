@@ -1,0 +1,12 @@
+.globe-popup .mapboxgl-popup-content {
+  background: rgb(17 24 39 / 0.9);
+  border: 1px solid rgb(55 65 81);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  backdrop-filter: blur(8px);
+}
+
+.globe-popup .mapboxgl-popup-tip {
+  border-top-color: rgb(17 24 39 / 0.9);
+  border-bottom-color: rgb(17 24 39 / 0.9);
+}

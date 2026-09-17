@@ -10,7 +10,6 @@ import { useDashboardStateContext } from './dashboard-state-context'
 import { isRealTimeDashboard } from './util/filters'
 import { GraphIntervalProvider } from './stats/graph/graph-interval-context'
 import { ImportsIncludedProvider } from './stats/graph/imports-included-context'
-import { CurrentVisitorsProvider } from './current-visitors-context'
 import { VerificationLiveViewPortal } from './verification/portal'
 import { EmailReportsCTABanner } from './email-reports-cta-banner'
 
@@ -49,23 +48,21 @@ function Dashboard() {
   const [importedDataInView, setImportedDataInView] = useState(false)
 
   return (
-    <CurrentVisitorsProvider>
-      <GraphIntervalProvider>
-        <ImportsIncludedProvider>
-          <div className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-5">
-            <TopBar showCurrentVisitors={!isRealTimeDashboard} />
-            <DashboardStats
-              importedDataInView={
-                isRealTimeDashboard ? undefined : importedDataInView
-              }
-              updateImportedDataInView={
-                isRealTimeDashboard ? undefined : setImportedDataInView
-              }
-            />
-          </div>
-        </ImportsIncludedProvider>
-      </GraphIntervalProvider>
-    </CurrentVisitorsProvider>
+    <GraphIntervalProvider>
+      <ImportsIncludedProvider>
+        <div className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <TopBar showCurrentVisitors={!isRealTimeDashboard} />
+          <DashboardStats
+            importedDataInView={
+              isRealTimeDashboard ? undefined : importedDataInView
+            }
+            updateImportedDataInView={
+              isRealTimeDashboard ? undefined : setImportedDataInView
+            }
+          />
+        </div>
+      </ImportsIncludedProvider>
+    </GraphIntervalProvider>
   )
 }
 

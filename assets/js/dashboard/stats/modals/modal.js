@@ -34,12 +34,16 @@ class Modal extends React.Component {
     // scroll). Leave it off when a child uses `flex-1 overflow-auto` for
     // its own inner scroll region (e.g. `BreakdownTable`).
     const grow = this.props.grow === true
+    const fullScreen = this.props.fullScreen === true
 
     const panelClass = classNames(
-      'w-full flex flex-col bg-white p-3 md:px-6 md:py-4 box-border shadow-2xl rounded-lg dark:bg-gray-900 focus:outline-hidden',
+      'w-full flex flex-col box-border focus:outline-hidden',
       {
+        'bg-white p-3 md:px-6 md:py-4 shadow-2xl rounded-lg dark:bg-gray-900':
+          !fullScreen,
+        'h-full max-w-none overflow-hidden bg-gray-950': fullScreen,
         'max-h-[calc(100dvh_-_var(--gap)*2)] transition-[height] duration-200 ease-in':
-          !grow
+          !grow && !fullScreen
       }
     )
 
@@ -54,11 +58,20 @@ class Modal extends React.Component {
         />
         <div className="modal is-open" onClick={this.props.onClick}>
           <div className="modal__overlay">
-            <div className="[--gap:1rem] sm:[--gap:2rem] md:[--gap:3.2rem] flex h-full w-full items-start justify-center p-[var(--gap)] box-border">
+            <div
+              className={classNames(
+                'flex h-full w-full items-start justify-center box-border',
+                fullScreen
+                  ? '[--gap:0px]'
+                  : '[--gap:1rem] sm:[--gap:2rem] md:[--gap:3.2rem] p-[var(--gap)]'
+              )}
+            >
               <div
                 ref={this.node}
                 className={panelClass}
-                style={{ maxWidth: this.props.maxWidth || '880px' }}
+                style={{
+                  maxWidth: fullScreen ? 'none' : this.props.maxWidth || '880px'
+                }}
                 // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                 tabIndex={0}
               >

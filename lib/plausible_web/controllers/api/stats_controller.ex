@@ -14,7 +14,7 @@ defmodule PlausibleWeb.Api.StatsController do
   require Logger
 
   plug(:date_validation_plug when action not in [:query, :csv_export_v2])
-  plug(:validate_required_filters_plug when action not in [:current_visitors])
+  plug(:validate_required_filters_plug when action not in [:current_visitors, :recent_events])
 
   def query(conn, params) do
     site = conn.assigns.site
@@ -300,6 +300,16 @@ defmodule PlausibleWeb.Api.StatsController do
   def current_visitors(conn, _) do
     site = conn.assigns[:site]
     json(conn, Stats.current_visitors(site))
+  end
+
+  def recent_events(conn, params) do
+    minutes = to_int(params["minutes"], 5)
+
+    if minutes in Plausible.Stats.RecentEvents.allowed_minutes() do
+      json(conn, Stats.recent_events(conn.assigns.site, minutes))
+    else
+      H.bad_request(conn, "minutes must be one of 1, 5, 30, 60, 360, 1440")
+    end
   end
 
   defp google_api(), do: Application.fetch_env!(:plausible, :google_api)

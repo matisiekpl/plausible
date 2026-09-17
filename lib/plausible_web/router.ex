@@ -302,6 +302,7 @@ defmodule PlausibleWeb.Router do
         post "/:domain/export", StatsController, :csv_export
         get "/:domain/google-search-terms", StatsController, :google_search_terms
         get "/:domain/current-visitors", StatsController, :current_visitors
+        get "/:domain/recent-events", StatsController, :recent_events
         get "/:domain/suggestions/:filter_name", StatsController, :filter_suggestions
 
         get "/:domain/suggestions/custom-prop-values/:prop_key",

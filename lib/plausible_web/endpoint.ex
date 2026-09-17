@@ -38,7 +38,7 @@ defmodule PlausibleWeb.Endpoint do
   plug(PlausibleWeb.TrackerPlug)
   plug(PlausibleWeb.Favicon)
 
-  static_paths = ~w(css js images favicon.ico)
+  static_paths = ~w(css js images data favicon.ico)
 
   static_paths =
     on_ee do

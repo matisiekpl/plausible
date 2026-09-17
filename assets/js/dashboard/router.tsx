@@ -16,6 +16,8 @@ import {
   BreakdownReportKey
 } from './stats/reports/reports-config'
 import { LocationsDetails } from './stats/locations/details'
+import { GLOBE_PATH, GlobeView } from './stats/locations/globe'
+import { CurrentVisitorsProvider } from './current-visitors-context'
 import PropsModal from './stats/modals/props'
 import ConversionsModal from './stats/modals/conversions'
 import FilterModal from './stats/modals/filter-modal'
@@ -41,11 +43,13 @@ function DashboardElement() {
     <QueryClientProvider client={queryClient}>
       <RoutelessModalsContextProvider>
         <DashboardStateContextProvider>
-          <LastLoadContextProvider>
-            <Dashboard />
-            {/** render any children of the root route below */}
-          </LastLoadContextProvider>
-          <Outlet />
+          <CurrentVisitorsProvider>
+            <LastLoadContextProvider>
+              <Dashboard />
+              {/** render any children of the root route below */}
+            </LastLoadContextProvider>
+            <Outlet />
+          </CurrentVisitorsProvider>
           <RoutelessSegmentModals />
           <RoutelessAnnotationModals />
         </DashboardStateContextProvider>
@@ -154,6 +158,11 @@ export const citiesRoute = {
   element: <LocationsDetails reportKey={BreakdownReportKey.cities} />
 }
 
+export const globeRoute = {
+  path: GLOBE_PATH,
+  element: <GlobeView />
+}
+
 export const browsersRoute = {
   path: BREAKDOWN_REPORTS.browsers.detailsPath,
   element: <DevicesDetails reportKey={BreakdownReportKey.browsers} />
@@ -253,6 +262,7 @@ export function createAppRouter(site: PlausibleSite) {
           countriesRoute,
           regionsRoute,
           citiesRoute,
+          globeRoute,
           browsersRoute,
           browserVersionsRoute,
           operatingSystemsRoute,

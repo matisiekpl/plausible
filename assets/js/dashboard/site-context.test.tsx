@@ -60,6 +60,7 @@ describe('parseSiteFromDataset', () => {
     embedded: false,
     background: undefined,
     isDbip: false,
+    mapboxToken: '',
     flags: {},
     shared: false,
     isConsolidatedView: false,

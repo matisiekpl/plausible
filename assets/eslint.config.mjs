@@ -63,7 +63,8 @@ export default defineConfig([
   pluginImport.flatConfigs.typescript,
   {
     settings: {
-      'import/resolver': { typescript: true, node: { paths: ['../deps'] } }
+      'import/resolver': { typescript: true, node: { paths: ['../deps'] } },
+      'import/ignore': ['mapbox-gl']
     }
   },
 

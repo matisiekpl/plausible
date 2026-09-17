@@ -57,6 +57,17 @@ export type QueryApiResponse = {
   extraContext: ExtraContext
 }
 
+export type RecentEvent = {
+  timestamp: string
+  name: string
+  pathname: string
+  country_code: string
+  country_name: string
+  city_geoname_id: number
+  city_name: string
+  visitor_key: string
+}
+
 export class ApiError extends Error {
   payload: unknown
   status: number
@@ -212,7 +223,10 @@ export async function get(
 ) {
   const queryString = dashboardState
     ? dashboardStateToSearchParams(dashboardState, [...extraQueryParams])
-    : serializeUrlParams(getSharedLinkSearchParams())
+    : serializeUrlParams({
+        ...getSharedLinkSearchParams(),
+        ...Object.assign({}, ...extraQueryParams)
+      })
 
   const response = await fetch(queryString ? `${url}?${queryString}` : url, {
     signal: abortController.signal,
@@ -249,8 +263,7 @@ export const mutation = async <
 >(
   url: string,
   options:
-    | { body: TBody; method: 'PATCH' | 'PUT' | 'POST' }
-    | { method: 'DELETE' }
+    { body: TBody; method: 'PATCH' | 'PUT' | 'POST' } | { method: 'DELETE' }
 ) => {
   const queryString = serializeUrlParams(getSharedLinkSearchParams())
   const fetchOptions =
@@ -271,4 +284,11 @@ export const mutation = async <
     signal: abortController.signal
   })
   return handleApiResponse(response, { idempotent: false })
+}
+
+export function fetchRecentEvents(
+  site: PlausibleSite,
+  minutes: number
+): Promise<RecentEvent[]> {
+  return get(url.apiPath(site, '/recent-events'), undefined, { minutes })
 }

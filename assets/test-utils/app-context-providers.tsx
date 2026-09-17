@@ -48,6 +48,7 @@ export const DEFAULT_SITE: PlausibleSite = {
   embedded: false,
   background: '',
   isDbip: false,
+  mapboxToken: '',
   flags: {},
   shared: false,
   isConsolidatedView: false,
