@@ -32,4 +32,13 @@ class Marker {
   }
 }
 
-export default { Map, Marker, accessToken: '' }
+class Popup {
+  on() {
+    return this
+  }
+  setDOMContent() {
+    return this
+  }
+}
+
+export default { Map, Marker, Popup, accessToken: '' }

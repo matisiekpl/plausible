@@ -124,6 +124,7 @@ export const GlobeMap = React.memo(function GlobeMap({
   const previousNewestRef = useRef<string>('')
   const spinningRef = useRef(spinning)
   const spinGlobeRef = useRef<() => void>(() => {})
+  const popupOpenRef = useRef(false)
 
   useEffect(() => {
     const markers = markersRef.current
@@ -161,6 +162,7 @@ export const GlobeMap = React.memo(function GlobeMap({
       }
       if (
         !spinningRef.current ||
+        popupOpenRef.current ||
         userInteracting ||
         map.getZoom() >= maxSpinZoom
       ) {
@@ -236,6 +238,14 @@ export const GlobeMap = React.memo(function GlobeMap({
           closeButton: false,
           className: 'globe-popup'
         }).setDOMContent(buildPopupContent(key, visitorMarker))
+        popup.on('open', () => {
+          popupOpenRef.current = true
+          map.stop()
+        })
+        popup.on('close', () => {
+          popupOpenRef.current = false
+          spinGlobeRef.current()
+        })
         const existing = markersRef.current.get(key)
         if (existing) {
           existing.setLngLat(visitorMarker.coordinates).setPopup(popup)
