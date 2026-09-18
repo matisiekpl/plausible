@@ -80,12 +80,14 @@ export function GlobeView() {
           spinning={spinning}
         />
         <div className="pointer-events-none absolute inset-0 p-4">
-          <div className="flex items-start justify-between gap-4">
-            <div className="pointer-events-auto max-w-sm rounded-xl bg-gray-900/70 p-4 backdrop-blur">
-              <div className="flex items-center gap-2 text-base">
+          <div className="flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="pointer-events-auto rounded-xl bg-gray-900/70 p-3 backdrop-blur sm:max-w-sm sm:p-4">
+              <div className="flex flex-wrap items-center gap-x-2 text-sm sm:text-base">
                 <span className="h-2 w-2 rounded-full bg-green-500" />
                 <span className="font-semibold">{currentVisitors ?? '–'}</span>
-                <span className="text-gray-400">current visitors on</span>
+                <span className="whitespace-nowrap text-gray-400">
+                  current visitors on
+                </span>
                 <span className="font-semibold">{site.domain}</span>
               </div>
               {countries.length > 0 && (
@@ -102,7 +104,7 @@ export function GlobeView() {
                 </div>
               )}
             </div>
-            <div className="pointer-events-auto flex items-center gap-3">
+            <div className="pointer-events-auto flex items-center justify-end gap-2 sm:gap-3">
               <IntervalSelect value={interval} onChange={setInterval} />
               <button
                 type="button"
