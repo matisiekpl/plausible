@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import { RecentEvent } from '../../../api'
 import { COUNTRIES_BY_TWO_LETTER_CODE } from '../countries'
 import { Coordinates, loadCitiesCoords, lookupCoordinates } from './coords'
-import { visitorAvatar, visitorName, visitorOffset } from './visitor'
+import { visitorAvatar, visitorOffset } from './visitor'
 
 type VisitorMarker = {
   coordinates: Coordinates
@@ -53,8 +53,7 @@ function buildPopupContent(visitorKey: string, marker: VisitorMarker) {
   const details = document.createElement('div')
   details.className = 'flex flex-col gap-0.5'
   const rows = [
-    ['font-semibold', visitorName(visitorKey)],
-    ['', `${flag} ${location}`.trim()],
+    ['font-semibold', `${flag} ${location}`.trim()],
     ['font-mono text-indigo-300', latestEvent.pathname],
     [
       'text-xs text-gray-400',

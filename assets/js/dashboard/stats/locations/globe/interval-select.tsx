@@ -34,7 +34,7 @@ export function IntervalSelect({
           type="button"
           onClick={() => onChange(interval)}
           className={classNames(
-            'rounded-full px-3 py-1 text-xs font-medium transition-colors',
+            'whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium transition-colors sm:px-3',
             interval === value
               ? 'bg-indigo-500 text-white'
               : 'text-gray-300 hover:text-white'
