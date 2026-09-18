@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { GlobeAltIcon, PauseIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Modal from '../../modals/modal'
@@ -6,7 +7,7 @@ import { useSiteContext } from '../../../site-context'
 import { useCurrentVisitorsContext } from '../../../current-visitors-context'
 import { useAppNavigate } from '../../../navigation/use-app-navigate'
 import { rootRoute } from '../../../router'
-import * as storage from '../../../util/storage'
+import { parseSearch } from '../../../util/url-search-params'
 import { fetchRecentEvents, RecentEvent } from '../../../api'
 import { FlagEmoji } from '../flag-emoji'
 import { GlobeMap } from './globe-map'
@@ -17,7 +18,7 @@ export const GLOBE_PATH = 'globe'
 const refetchIntervalMilliseconds = 10_000
 const liveRefetchIntervalMilliseconds = 3_000
 
-function parseInterval(value: string | null): GlobeInterval {
+function parseInterval(value: unknown): GlobeInterval {
   const parsed = Number(value)
   return Object.values(GlobeInterval).includes(parsed)
     ? (parsed as GlobeInterval)
@@ -43,16 +44,9 @@ export function GlobeView() {
   const site = useSiteContext()
   const navigate = useAppNavigate()
   const currentVisitors = useCurrentVisitorsContext()
-  const intervalKey = `globeInterval__${site.domain}`
-  const [interval, setInterval] = useState<GlobeInterval>(
-    parseInterval(storage.getItem(intervalKey))
-  )
-
+  const location = useLocation()
+  const interval = parseInterval(parseSearch(location.search).minutes)
   const [spinning, setSpinning] = useState(true)
-
-  useEffect(() => {
-    storage.setItem(intervalKey, String(interval))
-  }, [intervalKey, interval])
 
   const { data: events = [] } = useQuery({
     queryKey: ['recent-events', site.domain, interval],
@@ -105,7 +99,12 @@ export function GlobeView() {
               )}
             </div>
             <div className="pointer-events-auto flex items-center justify-end gap-2 sm:gap-3">
-              <IntervalSelect value={interval} onChange={setInterval} />
+              <IntervalSelect
+                value={interval}
+                onChange={(minutes) =>
+                  navigate({ search: (search) => ({ ...search, minutes }) })
+                }
+              />
               <button
                 type="button"
                 title={spinning ? 'Stop rotation' : 'Start rotation'}
