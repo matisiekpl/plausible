@@ -163,7 +163,8 @@ export const GlobeMap = React.memo(function GlobeMap({
         !spinningRef.current ||
         popupOpenRef.current ||
         userInteracting ||
-        map.getZoom() >= maxSpinZoom
+        map.getZoom() >= maxSpinZoom ||
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
       ) {
         return
       }
